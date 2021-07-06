@@ -1,0 +1,13 @@
+DELIMITER //
+CREATE TRIGGER log_mahasiswa
+BEFORE INSERT ON nilai_mahasiswa
+FOR EACH ROW
+BEGIN
+ 	DECLARE ipk DECIMAL(4,2);
+	DECLARE identitas TEXT;
+    
+	SET identitas = CONCAT(UPPER(NEW.nama), ' (', NEW.nim')');
+	SET ipk = (NEW.semester_1+NEW.semester_2+NEW.semester_3)/3;
+
+	INSERT INTO nilai_ipk VALUES (identitas, ipk);
+END; //
